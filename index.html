@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ART – Apertura de Caso | Iezzi & Varone</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #1a3a6b;
+      --celeste: #4db8d4;
+      --rojo:    #e63329;
+      --verde:   #27ae60;
+      --naranja: #e67e22;
+      --bg:      #f0f3f8;
+      --card:    #ffffff;
+      --text:    #1e2a3a;
+      --muted:   #6b7a90;
+      --border:  #d1d9e6;
+      --input-bg:#f8fafc;
+      --shadow:  0 2px 16px rgba(26,58,107,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--celeste);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .header img { height: 170px; object-fit: contain; }
+    .header-sub {
+      color: var(--celeste);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e4d8c 100%);
+      color: white;
+      text-align: center;
+      padding: 28px 20px 24px;
+    }
+    .hero h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+    .hero p  { font-size: 13px; color: #a8c4e8; margin-top: 6px; }
+
+    /* ── BADGE ── */
+    .art-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 600px; margin: 0 auto; padding: 28px 16px; }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      background: linear-gradient(90deg, var(--navy), #1e4d8c);
+      color: white;
+      padding: 13px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .badge {
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .section-body { padding: 20px; }
+
+    /* ── FIELDS ── */
+    .field { margin-bottom: 15px; }
+    .field:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 5px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    label .req { color: var(--rojo); margin-left: 2px; }
+
+    input[type=text], input[type=email], select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--input-bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--celeste);
+      box-shadow: 0 0 0 3px rgba(77,184,212,0.14);
+      background: white;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7a90' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: #f0f8fb;
+      border-left: 3px solid var(--celeste);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .info-box strong { color: var(--navy); }
+
+    /* ── ART SELECTOR VISUAL ── */
+    .art-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .art-option {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      background: var(--input-bg);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .art-option:hover {
+      border-color: var(--celeste);
+      background: #f0f8fb;
+    }
+    .art-option.selected {
+      border-color: var(--navy);
+      background: #eef2fa;
+      box-shadow: 0 0 0 3px rgba(26,58,107,0.10);
+    }
+    .art-option.selected .art-name { color: var(--navy); font-weight: 700; }
+    .art-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .art-option.selected .art-dot {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .art-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .art-sub {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    /* Template tag */
+    .art-tag {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .tag-propio  { background: #e8f4fd; color: #1e6fa8; border: 1px solid #b3d7f0; }
+    .tag-propio::before { content: "MODELO PROPIO"; }
+    .tag-especifico { background: #fef3e2; color: #a05c0a; border: 1px solid #f5d08a; }
+    .tag-especifico::before { content: "MODELO ESPECÍFICO"; }
+
+    /* hidden input */
+    #art_seleccionada { display: none; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+    /* ── RESUMEN PREVIO AL ENVÍO ── */
+    .resumen-card {
+      background: #f4f8ff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .resumen-card.visible { display: block; animation: fadeIn 0.3s ease; }
+    .resumen-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .resumen-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .resumen-row:last-child { border-bottom: none; }
+    .resumen-key { color: var(--muted); font-size: 11.5px; font-weight: 600; text-transform: uppercase; }
+    .resumen-val { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; word-break: break-word; }
+
+    /* ── BUTTONS ── */
+    .btn-row { display: flex; gap: 10px; margin-top: 6px; }
+    .btn {
+      padding: 13px 24px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, #1e7a4a, var(--verde));
+      color: white;
+      flex: 1;
+      font-size: 15px;
+      padding: 14px;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(39,174,96,0.3); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── SCREENS ── */
+    #screenOk, #screenError { display: none; }
+    .screen-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 40px 30px;
+      text-align: center;
+      margin-top: 24px;
+    }
+    .screen-icon { font-size: 56px; margin-bottom: 16px; }
+    .screen-card h2 { font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+    .screen-card p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .screen-detail {
+      margin-top: 16px;
+      background: #f4f8ff;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: left;
+    }
+    .screen-detail strong { color: var(--navy); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── ERRORES ── */
+    .field-error input,
+    .field-error select {
+      border-color: var(--rojo) !important;
+      background: #fff5f5 !important;
+      box-shadow: 0 0 0 3px rgba(230,51,41,0.12);
+    }
+    .field-error-msg {
+      color: var(--rojo);
+      font-size: 11px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .art-error {
+      color: var(--rojo);
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      display: none;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .row-2 { grid-template-columns: 1fr; }
+      .art-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── WEBHOOK URL — REEMPLAZAR ANTES DE DEPLOY ── -->
+<script>
+  const WEBHOOK_URL = "URL_TUNEL_PEGA_AQUI";
+</script>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="https://iezzivarone.com/assets/36_anios_compB-f0098160.png" alt="Iezzi & Varone" onerror="this.style.display='none'">
+  <div class="header-sub">Sistema de Gestión de ART</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Alta de nuevo caso<span class="art-badge">ESTUDIO</span></h1>
+  <p>Complete los datos para iniciar el proceso. El sistema enviará los formularios para completar el informe final.</p>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════
+       DATOS DEL SINIESTRO
+  ══════════════════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-title">📁 Datos del Siniestro <span class="badge">PASO 1 / 2</span></div>
+    <div class="section-body">
+
+      <div class="info-box">
+        <strong>Uso interno del estudio.</strong> Completá los datos del caso para generar la carpeta en Drive, registrar en el control de gestión y disparar los formularios al empleado y empleador.
+      </div>
+
+      <div class="field">
+        <label>N° de Siniestro <span class="req">*</span></label>
+        <input type="text" id="nro_siniestro" placeholder="Ej: 2024-00123" maxlength="30" autocomplete="off">
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Nombre del Empleado <span class="req">*</span></label>
+          <input type="text" id="empleado_nombre" placeholder="Apellido, Nombre" maxlength="60">
+        </div>
+        <div class="field">
+          <label>Empresa / Empleador <span class="req">*</span></label>
+          <input type="text" id="empleador_nombre" placeholder="Razón social o nombre" maxlength="60">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       CONTACTO
+  ══════════════════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-title">✉️ Contacto para Formularios <span class="badge">PASO 1 / 2</span></div>
+    <div class="section-body">
+
+      <div class="info-box">
+        <strong>Mails de destino.</strong> A estas direcciones se enviarán los links a los formularios de ampliación de denuncia ART.
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Mail del Empleado <span class="req">*</span></label>
+          <input type="email" id="mail_empleado" placeholder="empleado@mail.com" maxlength="80">
+        </div>
+        <div class="field">
+          <label>Mail del Empleador <span class="req">*</span></label>
+          <input type="email" id="mail_empleador" placeholder="empresa@mail.com" maxlength="80">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SELECCIÓN DE ART
+  ══════════════════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-title">🏥 ART Interviniente <span class="badge">PASO 2 / 2</span></div>
+    <div class="section-body">
+
+      <div class="info-box">
+        <strong>Seleccioná la ART del caso.</strong> Esto determina qué template de informe se usará en Drive al generar el informe final.
+      </div>
+
+      <input type="hidden" id="art_seleccionada">
+
+      <div class="art-grid">
+
+        <div class="art-option" onclick="selectArt(this, 'Provincia ART')">
+          <div class="art-dot"></div>
+          <div>
+            <div class="art-name">Provincia ART</div>
+            <div class="art-sub">Provincia Seguros</div>
+          </div>
+          <span class="art-tag tag-especifico"></span>
+        </div>
+
+        <div class="art-option" onclick="selectArt(this, 'La Segunda ART')">
+          <div class="art-dot"></div>
+          <div>
+            <div class="art-name">La Segunda ART</div>
+            <div class="art-sub">La Segunda Seguros</div>
+          </div>
+          <span class="art-tag tag-especifico"></span>
+        </div>
+
+        <div class="art-option" onclick="selectArt(this, 'Prevención ART')">
+          <div class="art-dot"></div>
+          <div>
+            <div class="art-name">Prevención ART</div>
+            <div class="art-sub">Prevención Seguros</div>
+          </div>
+          <span class="art-tag tag-especifico"></span>
+        </div>
+
+        <div class="art-option" onclick="selectArt(this, 'Otra ART')">
+          <div class="art-dot"></div>
+          <div>
+            <div class="art-name">Otra ART</div>
+            <div class="art-sub">Resto de aseguradoras</div>
+          </div>
+          <span class="art-tag tag-propio"></span>
+        </div>
+
+      </div>
+      <div class="art-error" id="art-error">⚠️ Seleccioná una ART antes de continuar.</div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       RESUMEN ANTES DE ENVIAR
+  ══════════════════════════════════════════════ -->
+  <div class="resumen-card" id="resumen">
+    <div class="resumen-title">🔍 Resumen — Confirmá antes de abrir el caso</div>
+    <div class="resumen-row"><span class="resumen-key">N° Siniestro</span><span class="resumen-val" id="r-siniestro">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">Empleado</span><span class="resumen-val" id="r-empleado">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">Empleador</span><span class="resumen-val" id="r-empleador">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">Mail empleado</span><span class="resumen-val" id="r-mail-empleado">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">Mail empleador</span><span class="resumen-val" id="r-mail-empleador">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">ART</span><span class="resumen-val" id="r-art">—</span></div>
+    <div class="resumen-row"><span class="resumen-key">Template informe</span><span class="resumen-val" id="r-template">—</span></div>
+  </div>
+
+  <!-- BOTÓN ENVÍO -->
+  <div class="btn-row">
+    <button class="btn btn-submit" id="btnSubmit" onclick="enviarFormulario()">
+      🚀 Abrir caso y enviar formularios
+    </button>
+  </div>
+
+  <!-- ── PANTALLAS DE RESULTADO ── -->
+  <div id="screenOk">
+    <div class="screen-card">
+      <div class="screen-icon">✅</div>
+      <h2>Caso abierto exitosamente</h2>
+      <p>Se registró el caso en el sistema, se creó la carpeta en Drive y se enviaron los formularios al empleado y empleador.</p>
+      <div class="screen-detail" id="screenOkDetail"></div>
+      <br>
+      <p style="font-size:12px; color:#aaa;">Iezzi & Varone — Abogados Penalistas de Empresas</p>
+    </div>
+  </div>
+
+  <div id="screenError">
+    <div class="screen-card">
+      <div class="screen-icon">⚠️</div>
+      <h2>Error al abrir el caso</h2>
+      <p>No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.</p>
+      <br>
+      <button class="btn btn-submit" style="max-width:220px;margin:0 auto;" onclick="resetError()">Reintentar</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Iezzi & Varone — Abogados Penalistas de Empresas · Sistema Interno ART</div>
+
+<script>
+  // ── Selección de ART ──
+  function selectArt(el, nombre) {
+    document.querySelectorAll(".art-option").forEach(o => o.classList.remove("selected"));
+    el.classList.add("selected");
+    document.getElementById("art_seleccionada").value = nombre;
+    document.getElementById("art-error").style.display = "none";
+    actualizarResumen();
+  }
+
+  // ── Template según ART ──
+  function templateDeArt(art) {
+    const especificos = ["Provincia ART", "La Segunda ART", "Prevención ART"];
+    return especificos.includes(art)
+      ? "Modelo específico — " + art
+      : "Modelo propio del estudio";
+  }
+
+  // ── Resumen en tiempo real ──
+  function actualizarResumen() {
+    const g  = id => document.getElementById(id)?.value?.trim() || "";
+    const art = g("art_seleccionada");
+
+    const campos = {
+      "r-siniestro":    g("nro_siniestro")    || "—",
+      "r-empleado":     g("empleado_nombre")  || "—",
+      "r-empleador":    g("empleador_nombre") || "—",
+      "r-mail-empleado":g("mail_empleado")    || "—",
+      "r-mail-empleador":g("mail_empleador")  || "—",
+      "r-art":          art                   || "—",
+      "r-template":     art ? templateDeArt(art) : "—",
+    };
+
+    const todosCompletos = Object.values(campos).every(v => v !== "—");
+    const resumen = document.getElementById("resumen");
+
+    if (todosCompletos) {
+      resumen.classList.add("visible");
+      Object.entries(campos).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      });
+    } else {
+      resumen.classList.remove("visible");
+    }
+  }
+
+  // Actualizar resumen en tiempo real mientras se tipea
+  ["nro_siniestro","empleado_nombre","empleador_nombre","mail_empleado","mail_empleador"]
+    .forEach(id => {
+      document.getElementById(id)?.addEventListener("input", actualizarResumen);
+    });
+
+  // ── Validación ──
+  function validar() {
+    clearErrors();
+    let ok = true;
+
+    ok = require("nro_siniestro",    "Ingresá el número de siniestro")    && ok;
+    ok = require("empleado_nombre",  "Ingresá el nombre del empleado")    && ok;
+    ok = require("empleador_nombre", "Ingresá el nombre del empleador")   && ok;
+    ok = requireEmail("mail_empleado",  "Ingresá un mail válido para el empleado")  && ok;
+    ok = requireEmail("mail_empleador", "Ingresá un mail válido para el empleador") && ok;
+
+    if (!document.getElementById("art_seleccionada").value) {
+      document.getElementById("art-error").style.display = "block";
+      ok = false;
+    }
+
+    return ok;
+  }
+
+  function require(id, msg) {
+    const el = document.getElementById(id);
+    if (!el || !el.value.trim()) { markError(el, msg); return false; }
+    return true;
+  }
+  function requireEmail(id, msg) {
+    const el = document.getElementById(id);
+    if (!el || !el.value.trim()) { markError(el, msg); return false; }
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(el.value.trim())) { markError(el, "El mail no tiene un formato válido"); return false; }
+    return true;
+  }
+  function markError(el, msg) {
+    if (!el) return;
+    const field = el.closest(".field");
+    if (field) {
+      field.classList.add("field-error");
+      const err = document.createElement("div");
+      err.className = "field-error-msg";
+      err.textContent = "⚠️ " + msg;
+      field.appendChild(err);
+    }
+    el.focus();
+  }
+  function clearErrors() {
+    document.querySelectorAll(".field-error").forEach(f => f.classList.remove("field-error"));
+    document.querySelectorAll(".field-error-msg").forEach(e => e.remove());
+    document.getElementById("art-error").style.display = "none";
+  }
+
+  // ── Envío ──
+  async function enviarFormulario() {
+    if (!validar()) return;
+
+    const btn = document.getElementById("btnSubmit");
+    btn.disabled    = true;
+    btn.textContent = "⏳ Abriendo caso...";
+
+    const g = id => document.getElementById(id)?.value?.trim() || "";
+    const art = g("art_seleccionada");
+
+    const payload = {
+      nro_siniestro:    g("nro_siniestro"),
+      empleado_nombre:  g("empleado_nombre"),
+      empleador_nombre: g("empleador_nombre"),
+      mail_empleado:    g("mail_empleado"),
+      mail_empleador:   g("mail_empleador"),
+      art:              art,
+      template_informe: templateDeArt(art),
+    };
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("HTTP " + res.status);
+
+      // Mostrar pantalla de éxito con detalle
+      document.getElementById("screenOkDetail").innerHTML =
+        `<strong>N° Siniestro:</strong> ${payload.nro_siniestro}<br>
+         <strong>Empleado:</strong> ${payload.empleado_nombre}<br>
+         <strong>Empleador:</strong> ${payload.empleador_nombre}<br>
+         <strong>ART:</strong> ${payload.art}<br>
+         <strong>Template:</strong> ${payload.template_informe}`;
+
+      document.querySelector(".container").innerHTML = "";
+      document.getElementById("screenOk").style.display = "block";
+      document.querySelector(".container").appendChild(document.getElementById("screenOk"));
+
+    } catch (err) {
+      document.getElementById("screenError").style.display = "block";
+      btn.disabled    = false;
+      btn.textContent = "🚀 Abrir caso y enviar formularios";
+    }
+  }
+
+  function resetError() {
+    document.getElementById("screenError").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
