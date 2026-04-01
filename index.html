@@ -269,7 +269,6 @@
       font-size: 16px;
       flex-shrink: 0;
     }
-    .card-header-text {}
     .card-header-title {
       font-size: 14px;
       font-weight: 700;
@@ -748,13 +747,6 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     WEBHOOK URL — REEMPLAZAR ANTES DE DEPLOY
-══════════════════════════════════════ -->
-<script>
-  const WEBHOOK_URL = "URL_TUNEL_PEGA_AQUI";
-</script>
-
 <!-- ── NAVBAR ── -->
 <nav class="navbar">
   <div class="navbar-brand">
@@ -779,19 +771,19 @@
 <!-- ── PROGRESS STRIP ── -->
 <div class="progress-strip">
   <div class="progress-inner">
-    <div class="prog-step active">
+    <div class="prog-step active" id="prog-1">
       <div class="prog-num">1</div>
       <div class="prog-label">Siniestro</div>
     </div>
-    <div class="prog-step active">
+    <div class="prog-step" id="prog-2">
       <div class="prog-num">2</div>
       <div class="prog-label">Contacto</div>
     </div>
-    <div class="prog-step active">
+    <div class="prog-step" id="prog-3">
       <div class="prog-num">3</div>
       <div class="prog-label">ART</div>
     </div>
-    <div class="prog-step">
+    <div class="prog-step" id="prog-4">
       <div class="prog-num">✓</div>
       <div class="prog-label">Confirmar</div>
     </div>
@@ -799,7 +791,7 @@
 </div>
 
 <!-- ── PAGE CONTENT ── -->
-<div class="page-wrap">
+<div class="page-wrap" id="pageWrap">
 
   <!-- ═══════════════════════════
        CARD 1 — DATOS DEL SINIESTRO
@@ -1005,28 +997,28 @@
     </button>
   </div>
 
-  <!-- ─── PANTALLA ÉXITO ─── -->
-  <div id="screenOk">
-    <div class="screen-card">
-      <div class="screen-icon-wrap screen-icon-ok">✅</div>
-      <h2>Caso abierto exitosamente</h2>
-      <p>Se registró el caso en el sistema, se creó la carpeta en Drive y se enviaron los formularios al empleado y empleador.</p>
-      <div class="screen-detail" id="screenOkDetail"></div>
-      <br>
-      <p style="font-size:12px; color:#aaa;">Iezzi & Varone — Abogados Penalistas de Empresas</p>
-    </div>
-  </div>
+</div>
 
-  <!-- ─── PANTALLA ERROR ─── -->
-  <div id="screenError">
-    <div class="screen-card">
-      <div class="screen-icon-wrap screen-icon-err">⚠️</div>
-      <h2>Error al abrir el caso</h2>
-      <p>No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.</p>
-      <button class="btn-retry" onclick="resetError()">↩ Reintentar</button>
-    </div>
+<!-- ─── PANTALLA ÉXITO ─── -->
+<div id="screenOk" class="page-wrap">
+  <div class="screen-card">
+    <div class="screen-icon-wrap screen-icon-ok">✅</div>
+    <h2>Caso abierto exitosamente</h2>
+    <p>Se registró el caso en el sistema, se creó la carpeta en Drive y se enviaron los formularios al empleado y empleador.</p>
+    <div class="screen-detail" id="screenOkDetail"></div>
+    <br>
+    <p style="font-size:12px; color:#aaa;">Iezzi &amp; Varone — Abogados Penalistas de Empresas</p>
   </div>
+</div>
 
+<!-- ─── PANTALLA ERROR ─── -->
+<div id="screenError" class="page-wrap">
+  <div class="screen-card">
+    <div class="screen-icon-wrap screen-icon-err">⚠️</div>
+    <h2>Error al abrir el caso</h2>
+    <p>No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.</p>
+    <button class="btn-retry" onclick="resetError()">↩ Reintentar</button>
+  </div>
 </div>
 
 <!-- ── FOOTER ── -->
@@ -1038,6 +1030,11 @@
 </footer>
 
 <script>
+  // ══════════════════════════════════════
+  // WEBHOOK URL — REEMPLAZAR ANTES DE DEPLOY
+  // ══════════════════════════════════════
+  const WEBHOOK_URL = "URL_TUNEL_PEGA_AQUI";
+
   // ── Selección de ART ──
   function selectArt(el, nombre) {
     document.querySelectorAll(".art-option").forEach(o => o.classList.remove("selected"));
@@ -1070,20 +1067,29 @@
       "r-template":      art ? templateDeArt(art) : "—",
     };
 
-    const todosCompletos = Object.values(campos).every(v => v !== "—");
-    const resumen = document.getElementById("resumen");
+    const paso1Ok = g("nro_siniestro") && g("empleado_nombre") && g("empleador_nombre");
+    const paso2Ok = g("mail_empleado") && g("mail_empleador");
+    const paso3Ok = !!art;
+    const todosCompletos = paso1Ok && paso2Ok && paso3Ok;
 
+    // Avanzar progress dinámicamente
+    document.getElementById("prog-1").classList.toggle("active", true);
+    document.getElementById("prog-1").classList.toggle("done",   !!paso1Ok);
+    document.getElementById("prog-2").classList.toggle("active", !!paso1Ok);
+    document.getElementById("prog-2").classList.toggle("done",   !!(paso1Ok && paso2Ok));
+    document.getElementById("prog-3").classList.toggle("active", !!(paso1Ok && paso2Ok));
+    document.getElementById("prog-3").classList.toggle("done",   !!(paso1Ok && paso2Ok && paso3Ok));
+    document.getElementById("prog-4").classList.toggle("active", !!todosCompletos);
+
+    const resumen = document.getElementById("resumen");
     if (todosCompletos) {
       resumen.classList.add("visible");
       Object.entries(campos).forEach(([id, val]) => {
         const el = document.getElementById(id);
         if (el) el.textContent = val;
       });
-      // Marcar paso 4 como activo en progress
-      document.querySelectorAll(".prog-step")[3]?.classList.add("active");
     } else {
       resumen.classList.remove("visible");
-      document.querySelectorAll(".prog-step")[3]?.classList.remove("active");
     }
   }
 
@@ -1170,16 +1176,25 @@
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
 
-      document.getElementById("screenOkDetail").innerHTML =
-        `<strong>N° Siniestro:</strong> ${payload.nro_siniestro}<br>
-         <strong>Empleado:</strong> ${payload.empleado_nombre}<br>
-         <strong>Empleador:</strong> ${payload.empleador_nombre}<br>
-         <strong>ART:</strong> ${payload.art}<br>
-         <strong>Template:</strong> ${payload.template_informe}`;
+      const detail = document.getElementById("screenOkDetail");
+      const lines = [
+        ["N° Siniestro", payload.nro_siniestro],
+        ["Empleado",     payload.empleado_nombre],
+        ["Empleador",    payload.empleador_nombre],
+        ["ART",          payload.art],
+        ["Template",     payload.template_informe],
+      ];
+      detail.innerHTML = "";
+      lines.forEach(([k, v], i) => {
+        const s = document.createElement("strong");
+        s.textContent = k + ":";
+        detail.appendChild(s);
+        detail.appendChild(document.createTextNode(" " + v));
+        if (i < lines.length - 1) detail.appendChild(document.createElement("br"));
+      });
 
-      document.querySelector(".page-wrap").innerHTML = "";
+      document.getElementById("pageWrap").style.display = "none";
       document.getElementById("screenOk").style.display = "block";
-      document.querySelector(".page-wrap").appendChild(document.getElementById("screenOk"));
 
     } catch (err) {
       document.getElementById("screenError").style.display = "block";
