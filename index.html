@@ -341,7 +341,7 @@
       opacity: 0.5;
     }
 
-    input[type=text], input[type=email], select {
+    input[type=text], input[type=email], input[type=date], select {
       width: 100%;
       padding: 11px 14px 11px 40px;
       border: 1.5px solid var(--border);
@@ -951,6 +951,14 @@
         </div>
       </div>
 
+      <div class="field">
+        <label>Fecha del Accidente <span class="req">*</span></label>
+        <div class="input-wrap">
+          <span class="input-icon">📅</span>
+          <input type="date" id="fecha_accidente">
+        </div>
+      </div>
+
       <div class="row-2">
         <div class="field">
           <label>Nombre del Empleado <span class="req">*</span></label>
@@ -1214,7 +1222,7 @@
   // ══════════════════════════════════════
   // WEBHOOK URL — REEMPLAZAR ANTES DE DEPLOY
   // ══════════════════════════════════════
-  const WEBHOOK_URL = "https://arizona-sacrifice-disclaimer-cases.trycloudflare.com/webhook/art-apertura";
+  const WEBHOOK_URL = "URL_TUNEL_PEGA_AQUI";
 
   // ── Selección de ART ──
   function selectArt(el, nombre) {
@@ -1319,6 +1327,7 @@
     clearErrors();
     let ok = true;
     ok = require("nro_siniestro",    "Ingresá el número de siniestro")             && ok;
+    ok = require("fecha_accidente",  "Ingresá la fecha del accidente")             && ok;
     ok = require("empleado_nombre",  "Ingresá el nombre del empleado")             && ok;
     ok = require("empleador_nombre", "Ingresá el nombre del empleador / empresa")  && ok;
     ok = requireEmail("mail_empleado",  "Ingresá un mail válido para el empleado") && ok;
@@ -1378,6 +1387,7 @@
 
     const payload = {
       nro_siniestro:    g("nro_siniestro"),
+      fecha_accidente:  g("fecha_accidente"),
       empleado_nombre:  g("empleado_nombre"),
       empleador_nombre: g("empleador_nombre"),
       mail_empleado:    g("mail_empleado"),
