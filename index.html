@@ -1275,15 +1275,6 @@
       <div id="selector-siniestro" style="display:none">
         <div class="art-grid">
 
-          <div class="art-option" onclick="selectArt(this, 'Provincia Seguros S.A')">
-            <div class="art-option-top">
-              <div class="art-radio"></div>
-              <div class="art-name">Provincia Seguros S.A.</div>
-            </div>
-            <div class="art-sub">Modelo específico</div>
-            <span class="art-tag tag-especifico"></span>
-          </div>
-
           <div class="art-option" onclick="selectArt(this, 'Sancor Seguros')">
             <div class="art-option-top">
               <div class="art-radio"></div>
@@ -1461,7 +1452,7 @@
     document.getElementById("card3-sub").textContent   = esArt ? "Modelo de informe ART a generar" : "Modelo de informe de siniestro a generar";
     document.getElementById("info-card3").innerHTML    = esArt
       ? "<strong>Seleccioná el tipo de informe ART.</strong> Provincia ART, La Segunda y Prevención ART tienen modelo específico. El resto usa el modelo propio del estudio."
-      : "<strong>Seleccioná el tipo de informe de siniestro.</strong> Provincia Seguros tiene modelo específico. El resto usa el modelo genérico.";
+      : "<strong>Seleccioná el tipo de informe de siniestro.</strong> Todos los casos usan el modelo genérico del estudio.";
     document.getElementById("r-label-art").textContent = esArt ? "ART" : "Aseguradora";
 
     // Botón submit
