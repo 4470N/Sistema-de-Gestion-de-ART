@@ -2009,13 +2009,16 @@
   }
   function formatFecha(input) {
     var raw = input.value.replace(/\D/g, '').slice(0, 8);
+    if (raw.length >= 2 && (parseInt(raw.slice(0,2),10) < 1 || parseInt(raw.slice(0,2),10) > 31))
+      raw = raw.slice(0,1);
+    if (raw.length >= 4 && (parseInt(raw.slice(2,4),10) < 1 || parseInt(raw.slice(2,4),10) > 12))
+      raw = raw.slice(0,3);
     if (raw.length <= 2)      input.value = raw;
     else if (raw.length <= 4) input.value = raw.slice(0,2) + '/' + raw.slice(2);
     else                      input.value = raw.slice(0,2) + '/' + raw.slice(2,4) + '/' + raw.slice(4);
     if (raw.length === 8) {
       var anio = parseInt(raw.slice(4), 10);
-      var hoy  = new Date().getFullYear();
-      if (anio < 2000 || anio > hoy) {
+      if (anio < 2000 || anio > new Date().getFullYear()) {
         input.value = raw.slice(0,2) + '/' + raw.slice(2,4) + '/';
         input.style.borderColor = '#e74c3c';
       } else { input.style.borderColor = ''; }
