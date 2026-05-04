@@ -1057,7 +1057,7 @@
         <label>Fecha del Accidente <span class="req">*</span></label>
         <div class="input-wrap">
           <span class="input-icon">📅</span>
-          <input type="date" id="fecha_accidente">
+          <input type="date" id="fecha_accidente" min="2000-01-01">
         </div>
       </div>
 
@@ -2007,6 +2007,11 @@
     document.getElementById("screenError").style.display = "none";
     document.getElementById("pageWrap").style.display = "block";
   }
+  (function() {
+    var hoy = new Date().toISOString().split('T')[0];
+    var el = document.getElementById("fecha_accidente");
+    if (el) el.max = hoy;
+  })();
 </script>
 
 </body>
