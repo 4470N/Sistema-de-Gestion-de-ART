@@ -897,6 +897,16 @@
       input[type=text], input[type=date], input[type=email],
       input[type=tel], input[type=number], input[type=time],
       select, textarea { font-size: 16px; padding: 9px 11px; }
+      /* Preservar padding izquierdo para inputs con ícono */
+      .input-wrap input[type=text], .input-wrap input[type=email],
+      .input-wrap input[type=date], .input-wrap select { padding-left: 46px; }
+
+      /* Grids de selección: una columna en mobile */
+      .cc-grid { grid-template-columns: 1fr; }
+
+      /* Modal y pantallas de resultado */
+      #modalBox { padding: 24px 16px; }
+      .screen-card { padding: 32px 16px; }
 
       /* Progress strip */
       .progress-strip { padding: 0 14px; }
@@ -920,8 +930,6 @@
       .card-body { padding: 12px 10px; }
       .page-wrap { padding: 14px 8px 40px; }
       .navbar-brand img { height: 28px; }
-    }
-      .card-header-badge { display: none; }
     }
 
     /* ══════════════════════════════════════
@@ -960,6 +968,18 @@
     @media (max-width: 540px) {
       .footer-text, .footer-text p, .footer-text a { font-size: 10px !important; line-height: 1.6 !important; }
       .footer { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+    }
+
+    /* ── Touch: deshabilitar hovers que quedan pegados en iOS/Android ── */
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover                      { box-shadow: var(--shadow-md); }
+      .art-option:hover                { border-color: var(--border); background: var(--input-bg); transform: none; box-shadow: none; }
+      .art-option:hover::before        { opacity: 0; }
+      .tipo-option:hover               { border-color: var(--border); background: var(--input-bg); transform: none; box-shadow: none; }
+      .cc-item:hover                   { border-color: var(--border); background: var(--input-bg); box-shadow: none; }
+      .file-input-custom:hover         { border-color: var(--border); background: white; }
+      .btn-submit:hover:not(:disabled) { transform: none; box-shadow: 0 4px 20px rgba(15,42,94,0.30); background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); }
+      .btn-retry:hover                 { transform: none; background: var(--navy); }
     }
   </style>
 </head>
