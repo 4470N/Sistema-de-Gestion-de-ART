@@ -2001,8 +2001,18 @@
         };
 
         xhr.onload = () => {
-          if (xhr.status >= 200 && xhr.status < 300) resolve();
-          else reject(new Error("HTTP " + xhr.status));
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve();
+          } else {
+            let msg = "HTTP " + xhr.status;
+            try {
+              const body = JSON.parse(xhr.responseText);
+              if (body && body.error) msg = body.error;
+            } catch (_) {}
+            const err = new Error(msg);
+            err.status = xhr.status;
+            reject(err);
+          }
         };
         xhr.onerror   = () => reject(new Error("network"));
         xhr.ontimeout = () => reject(new Error("timeout"));
@@ -2066,9 +2076,13 @@
       console.error("[Sistema] Error al abrir caso:", err.message || err);
       const _msgEl = document.getElementById("modalErrorMsg");
       if (_msgEl) {
-        _msgEl.textContent = err.message === "timeout"
-          ? "La solicitud tardó demasiado. Revisá tu conexión e intentá nuevamente."
-          : "Hubo un problema al procesar el caso. Por favor, revisá tu conexión e intentá nuevamente.";
+        if (err.message === "timeout") {
+          _msgEl.textContent = "La solicitud tardó demasiado. Revisá tu conexión e intentá nuevamente.";
+        } else if (err.status === 400 && err.message) {
+          _msgEl.textContent = err.message;
+        } else {
+          _msgEl.textContent = "Hubo un problema al procesar el caso. Por favor, revisá tu conexión e intentá nuevamente.";
+        }
       }
       document.getElementById("modalProgress").style.display = "none";
       document.getElementById("modalError").style.display = "block";
